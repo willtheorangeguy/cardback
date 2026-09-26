@@ -54,10 +54,36 @@ describe('cashback and break-even', () => {
     expect(breakEven(fixture,{groceries:500,other:500}).first).toBeCloseTo(1000);
     expect(cashback(fixture,{other:NaN,gas:-20})).toBe(0);
   });
-  it('has eighteen sourced cards and distinct identifiers', () => {
-    expect(cards).toHaveLength(18);
+  it('has nineteen sourced cards and distinct identifiers', () => {
+    expect(cards).toHaveLength(19);
     expect(new Set(cards.map(c=>c.id)).size).toBe(cards.length);
     expect(cards.every(c=>c.sources.length > 0 && c.sources.every(s=>s.url.startsWith('https://')))).toBe(true);
+  });
+});
+
+describe('Wealthsimple Visa Infinite +', () => {
+  it('earns uncapped 2% across every budget category', () => {
+    const card = find('wealthsimple');
+    for (const category of categories) {
+      expect(initialRate(card,category.id)).toBe(.02);
+      expect(cashback(card,{[category.id]:10000})).toBeCloseTo(2400);
+    }
+    expect(cashback(card,{groceries:500,gas:250,other:250})).toBeCloseTo(240);
+  });
+  it('recovers the regular monthly fee at $1,000 monthly spending', () => {
+    const card = find('wealthsimple');
+    expect(card.feePeriod).toBe('monthly');
+    expect(annualFee(card)).toBe(240);
+    expect(breakEven(card,{other:1}).first).toBeCloseTo(1000);
+    expect(breakEven(card,{groceries:500,other:500}).first).toBeCloseTo(1000);
+    expect(breakEven(card,{other:1},{}, {...fixture,fee:0} ).first).toBeCloseTo(2000);
+  });
+  it('waives fees without changing rewards when eligibility is confirmed', () => {
+    const card = find('wealthsimple');
+    const config = {feeWaived:true};
+    expect(annualFee(card,config)).toBe(0);
+    expect(breakEven(card,{other:1},config).first).toBe(0);
+    expect(cashback(card,{other:1000},config)).toBeCloseTo(240);
   });
 });
 

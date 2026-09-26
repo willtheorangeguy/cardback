@@ -2,7 +2,7 @@
 
 Cardback estimates spending needed to recover a Canadian credit card's ongoing fee. Use category thresholds or your monthly budget to compare cashback after fees, including reward caps.
 
-- Compare eighteen card entries from seven Canadian issuers.
+- Compare nineteen card entries from eight Canadian issuers.
 - Calculate fee recovery for one category or a spending mix.
 - Compare net rewards against a no-fee card.
 - Configure Tangerine bonus categories independently for both cards.

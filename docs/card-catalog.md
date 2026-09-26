@@ -1,6 +1,6 @@
 # Card catalog
 
-The September 26, 2026 scan covers currently advertised personal cashback products from Canada's Big Five banks. The catalog contains sixteen Big Five entries plus the existing Tangerine and Simplii entries. Student products remain separate where the issuer advertises a student application path.
+The September 26, 2026 scan covers currently advertised personal cashback products from Canada's Big Five banks. The catalog contains sixteen Big Five entries plus Tangerine, Simplii, and Wealthsimple, for nineteen entries. Student products remain separate where the issuer advertises a student application path.
 
 ## Scan coverage
 
@@ -13,6 +13,16 @@ The September 26, 2026 scan covers currently advertised personal cashback produc
 | CIBC | Dividend Visa, Dividend Visa for Students, Dividend Platinum Visa, Dividend Visa Infinite, Costco Mastercard / World Mastercard | [Cashback cards](https://www.cibc.com/en/personal-banking/credit-cards/cash-back-cards.html) |
 
 CIBC's personal Costco Mastercard and World Mastercard share one entry because the issuer specifies identical fees and reward rates. Membership and eligibility requirements still differ from ordinary no-fee cards. BMO's legacy CashBack World Mastercard is referenced in reward agreements but is not included: this scan did not verify a current public application path and fee for that product.
+
+## Wealthsimple addition
+
+The Wealthsimple Visa Infinite + earns unlimited 2% on eligible purchases and charges $20 monthly ($240 annually in Quebec). With the regular fee, cashback covers the fee at $1,000 monthly spending, or $12,000 annually. The calculator excludes welcome cashback boosts and the first-month fee waiver.
+
+Select the fee-waiver checkbox only if you meet the ongoing requirements throughout the modeled year: $100,000 or more in individual eligible assets/net deposits, or qualifying $4,000 direct deposits for each billing cycle. Household tier alone does not qualify. Partial-year eligibility and Quebec prorated refunds are not modeled. The card requires an active Wealthsimple chequing account and issuer eligibility.
+
+Exclude cash-like transactions, refunds, fees, and adjustments from the spending budget. Cashback must be redeemed manually in the app. See [product and fees](https://www.wealthsimple.com/en-ca/wealthsimple-visa-infinite-card), [eligibility and waiver rules](https://help.wealthsimple.com/hc/en-ca/articles/31614256039835-Apply-for-a-Wealthsimple-credit-card), and [cashback exclusions and redemption](https://help.wealthsimple.com/hc/en-ca/articles/37750003281563-Earn-cash-back-with-your-credit-card).
+
+This addition models the current Visa Infinite +, not the invitation-only 1% Visa Infinite beta or the separate Visa Infinite Privilege product.
 
 ## New reward rules
 

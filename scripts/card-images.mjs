@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 const pages = {
+  wealthsimple: 'https://www.wealthsimple.com/en-ca/wealthsimple-visa-infinite-card',
   'bmo-student': 'https://www.bmo.com/en-ca/main/personal/credit-cards/student-bmo-cashback-mastercard/',
   'td-infinite': 'https://www.td.com/ca/en/personal-banking/products/credit-cards/cash-back/cash-back-visa-infinite-card',
   'td-free': 'https://www.td.com/ca/en/personal-banking/products/credit-cards/cash-back/cash-back-visa-card',

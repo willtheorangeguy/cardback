@@ -50,6 +50,10 @@ export const cards: Card[] = [
     groups:[{categories:['groceries','bills'],rate:.04,cap:25000,period:'annual'},{categories:['gas','transit','delivery'],rate:.02,cap:25000,period:'annual'}],sources:[{label:'Card details',url:'https://www.scotiabank.com/ca/en/personal/credit-cards/visa/momentum-infinite-card.html'},{label:'Reward terms',url:'https://www.scotiabank.com/terms/momentumvisainfiniteplus'}],note:'Groceries and bills share a $25,000 annual cap. Gas/EV, transit and eligible food delivery share another $25,000 cap; then 1%. Food delivery eligibility depends on the service.' }
 ];
 
+cards.push({ id:'wealthsimple',issuer:'Wealthsimple',name:'Visa Infinite +',fee:20,feePeriod:'monthly',base:.02,color:'#34332f',verified,groups:[],
+  sources:[{label:'Card, fee & rates',url:'https://www.wealthsimple.com/en-ca/wealthsimple-visa-infinite-card'},{label:'Fee waiver & eligibility',url:'https://help.wealthsimple.com/hc/en-ca/articles/31614256039835-Apply-for-a-Wealthsimple-credit-card'},{label:'Cashback exclusions & redemption',url:'https://help.wealthsimple.com/hc/en-ca/articles/37750003281563-Earn-cash-back-with-your-credit-card'}],
+  note:'Unlimited 2% on eligible purchases. $20/month ($240/year in Quebec). Fee waived with $100,000+ in individual eligible assets/net deposits or qualifying $4,000 direct deposits per billing cycle; household status alone does not qualify. Requires an active Wealthsimple chequing account and card eligibility. Cash-like transactions, refunds, fees and adjustments earn no rewards; exclude them from your budget. Redeem manually in-app. Welcome boosts and first-month fee waiver excluded.' });
+
 // Additional personal cashback products found in the Big Five issuer scan.
 cards.push(
   { id:'td-infinite',issuer:'TD',name:'Cash Back Visa Infinite',fee:139,feePeriod:'annual',base:.01,color:'#205f3b',verified,

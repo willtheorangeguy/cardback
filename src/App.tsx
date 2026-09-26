@@ -22,6 +22,10 @@ function Icon({ category }: { category: Category }) {
   return <span className={`category-icon icon-${category}`} aria-hidden="true">{symbols[category]}</span>;
 }
 function ConfigurationPanel({ card, config, onChange, id }: { card: Card; config: Configuration; onChange: (config: Configuration) => void; id: string }) {
+  if (card.id === 'wealthsimple') return <fieldset className="configuration"><legend>Your fee waiver</legend>
+    <label className="check-label"><input aria-label={`${id}: qualifying Wealthsimple fee waiver`} type="checkbox" checked={!!config.feeWaived} onChange={e => onChange({ ...config, feeWaived:e.target.checked })} /> I meet Wealthsimple’s ongoing fee-waiver requirements</label>
+    <p className="muted">$100,000+ in individual eligible assets/net deposits, or qualifying $4,000 direct deposits per billing cycle. Assumes eligibility throughout the modeled year.</p>
+  </fieldset>;
   if (!card.selectable) return null;
   const selected = config.selected ?? [];
   const limit = config.savings ? 3 : 2;
