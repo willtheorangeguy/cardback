@@ -1,0 +1,31 @@
+INHERIT: .mkdocs-shared/shared/mkdocs.base.yml
+site_name: Cardback
+site_description: A Canadian cashback calculator built with React, TypeScript, Vite and Tailwind CSS.
+site_author: willtheorangeguy
+site_url: https://williamvdg.me/cardback/docs/
+repo_url: https://github.com/willtheorangeguy/cardback
+repo_name: willtheorangeguy/cardback
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; willtheorangeguy
+nav:
+  - Cardback: index.md
+  - Getting started: getting-started.md
+  - Using the calculator: usage.md
+  - Calculation model: calculation-model.md
+  - Installation: installation.md
+  - Configuration: configuration.md
+  - Architecture: architecture.md
+  - Development:
+      - Development: development.md
+      - Testing: testing.md
+      - CI/CD: ci-cd.md
+      - Troubleshooting: troubleshooting.md
+      - FAQ: faq.md
+  - About:
+      - Contributing: https://github.com/willtheorangeguy/.github/blob/main/CONTRIBUTING.md
+      - Code of conduct: https://github.com/willtheorangeguy/.github/blob/main/CODE_OF_CONDUCT.md
+      - Security: https://github.com/willtheorangeguy/.github/blob/main/SECURITY.md
+      - Calculator: https://williamvdg.me/cardback/
+exclude_docs: |
+  docs.instructions.md
+  internal/

@@ -1,0 +1,12 @@
+name: Docs Lint
+on:
+  pull_request:
+    paths: ['docs/**', 'overrides/**', 'mkdocs.yml', 'scripts/docs.mjs', '.github/workflows/docs-lint.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lint:
+    uses: willtheorangeguy/mkdocs/.github/workflows/docs-lint.yml@a1dbb03a549c964821efbff190b4bd52408d1b79
+    with:
+      shared_ref: a1dbb03a549c964821efbff190b4bd52408d1b79

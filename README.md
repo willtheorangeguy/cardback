@@ -2,6 +2,8 @@
 
 A Canadian cashback calculator built with React, TypeScript, Vite and Tailwind CSS. All budget calculations happen locally in the browser; inputs are not persisted.
 
+Documentation: [project guide](docs/index.md) · [MkDocs site](https://williamvdg.me/cardback/docs/).
+
 ## Development
 
 Requires Node.js 20.19+ or 22.12+ and npm.

@@ -20,12 +20,13 @@ jobs:
   build:
     name: Typecheck and production build
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          fetch-depth: 0
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
@@ -37,6 +38,25 @@ jobs:
         run: npm run build
       - name: Check Pages paths and bundled images
         run: npm run check:build
+      - name: Check out shared documentation configuration
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: willtheorangeguy/mkdocs
+          ref: a1dbb03a549c964821efbff190b4bd52408d1b79
+          path: .mkdocs-shared
+          persist-credentials: false
+      - name: Set up Python for documentation
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: .mkdocs-shared/shared/requirements-docs.txt
+      - name: Install documentation dependencies
+        run: python -m pip install -r .mkdocs-shared/shared/requirements-docs.txt
+      - name: Stage shared design system
+        run: npm run docs:prepare
+      - name: Build documentation beside the calculator
+        run: npm run docs:build -- --site-dir dist/docs
       - name: Upload production build
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
