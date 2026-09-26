@@ -1,28 +1,40 @@
 import type { Card, Category } from './types';
+import { additionalCards } from './retail-catalog';
 export const categories: { id: Category; label: string; short: string }[] = [
-  { id:'groceries',label:'Groceries',short:'Groceries' },
+  { id:'groceries',label:'Other grocery stores',short:'Groceries' },
+  { id:'pcgroceries',label:'Participating Loblaw grocery stores',short:'Loblaw groceries' },
+  { id:'scenegroceries',label:'Eligible Sobeys / Scene+ grocery stores',short:'Scene+ groceries' },
+  { id:'walmart',label:'Walmart grocery-coded purchases',short:'Walmart groceries' },
   { id:'dining',label:'Restaurants & cafés',short:'Dining' },
   { id:'delivery',label:'Eligible food delivery',short:'Food delivery' },
   { id:'gas',label:'Other gas stations',short:'Gas stations' },
   { id:'costcogas',label:'Costco gas (Canada)',short:'Costco gas' },
+  { id:'esso',label:'Esso / Mobil fuel (Canada)',short:'Esso / Mobil fuel' },
+  { id:'trianglefuel',label:'Gas+ / Petro-Canada regular fuel',short:'Triangle regular fuel' },
+  { id:'trianglepremium',label:'Gas+ / Petro-Canada premium fuel',short:'Triangle premium fuel' },
   { id:'ev',label:'EV charging',short:'EV charging' },
   { id:'publictransit',label:'Public transit & commuter ferries',short:'Public transit' },
   { id:'transit',label:'Taxis, rideshares & other local transit',short:'Transit & rideshares' },
-  { id:'bills',label:'Recurring bills & subscriptions',short:'Bills' },
+  { id:'bills',label:'Other recurring bills & subscriptions',short:'Bills' },
+  { id:'utilities',label:'Eligible utility / telecom bill payments',short:'Utility bills' },
   { id:'games',label:'Digital games',short:'Games' },
   { id:'media',label:'Eligible non-recurring digital media',short:'Digital media' },
-  { id:'drugstores',label:'Drugstores',short:'Drugstores' },
+  { id:'drugstores',label:'Other drugstores',short:'Drugstores' },
+  { id:'shoppers',label:'Shoppers Drug Mart / Pharmaprix',short:'Shoppers / Pharmaprix' },
   { id:'costco',label:'Costco warehouse purchases',short:'Costco warehouse' },
   { id:'costcoonline',label:'Costco.ca purchases',short:'Costco.ca' },
   { id:'entertainment',label:'Other entertainment',short:'Entertainment' },
-  { id:'home',label:'Home improvement',short:'Home improvement' },
+  { id:'cineplex',label:'Eligible Cineplex purchases',short:'Cineplex' },
+  { id:'home',label:'Other home improvement',short:'Home improvement' },
+  { id:'homehardware',label:'Eligible Home Hardware purchases',short:'Home Hardware' },
+  { id:'triangle',label:'Eligible Triangle partner-store purchases',short:'Triangle stores' },
   { id:'furniture',label:'Furniture',short:'Furniture' },
   { id:'hotels',label:'Other hotels & motels',short:'Hotels' },
   { id:'travelportal',label:'Eligible CIBC by Expedia travel',short:'CIBC by Expedia' },
   { id:'fitness',label:'Fitness & sports clubs',short:'Fitness' },
   { id:'other',label:'Everything else',short:'Other' },
 ];
-export const selectableCategories = categories.filter(c => !['other', 'delivery', 'publictransit', 'costcogas', 'costcoonline', 'costco', 'media', 'travelportal', 'ev'].includes(c.id));
+export const selectableCategories = categories.filter(c => !['other', 'delivery', 'publictransit', 'costcogas', 'costcoonline', 'costco', 'media', 'travelportal', 'ev', 'pcgroceries', 'scenegroceries', 'shoppers', 'homehardware', 'cineplex', 'triangle', 'esso', 'trianglefuel', 'trianglepremium', 'utilities', 'walmart'].includes(c.id));
 const bmoTerms = 'https://www.bmo.com/popups/main/personal/credit-cards/terms-and-conditions-en.html';
 const cibcTerms = 'https://www.cibc.com/en/personal-banking/credit-cards/rewards-and-points/cash-back-benefits.html';
 const accelerated: Category[] = ['groceries','gas','transit','dining','delivery','bills'];
@@ -63,7 +75,7 @@ cards.push(
     groups:[{categories:['groceries'],rate:.01,cap:5000,period:'annual'},{categories:['gas'],rate:.01,cap:5000,period:'annual'},{categories:['publictransit'],rate:.01,cap:5000,period:'annual'},{categories:['bills','games','media'],rate:.01,cap:5000,period:'annual'}],
     sources:[{label:'Card, fee & reward terms',url:tdRoot+'cash-back-visa-card'}],note:'Four separate $5,000 annual caps: groceries; gas/EV including Costco gas; eligible public transit; and recurring bills plus eligible digital games/media combined. Then 0.5%. Taxis and rideshares earn the base rate.' },
   { id:'rbc-free',issuer:'RBC',name:'Cash Back Mastercard',fee:0,feePeriod:'annual',base:.01,color:'#3a527a',verified,
-    groups:[{categories:['groceries'],rate:.02,cap:6000,period:'annual'},{categories:categories.filter(c=>c.id !== 'groceries').map(c=>c.id),rate:.005,cap:6000,period:'annual'}],
+    groups:[{categories:['groceries'],rate:.02,cap:6000,period:'annual'},{categories:categories.filter(c=>!['groceries','pcgroceries','scenegroceries','walmart'].includes(c.id)).map(c=>c.id),rate:.005,cap:6000,period:'annual'}],
     sources:[{label:'Card comparison & fee',url:'https://www.rbcroyalbank.com/credit-cards/cash-back.html'},{label:'Rates & tier rules',url:'https://www.rbcroyalbank.com/credit-cards/cash-back/rbc-cash-back-mastercard/rbc-cash-back-mastercard-benefits-guide.pdf'}],
     note:'Groceries earn 2% on the first $6,000 annually, then 1%. All non-grocery purchases share a separate tier: 0.5% on the first $6,000, then 1%. The non-grocery rate increases after its threshold.' },
   { id:'scotia-visa',issuer:'Scotiabank',name:'Momentum Visa',fee:49,feePeriod:'annual',base:.01,color:'#913e43',verified,
@@ -102,6 +114,8 @@ for (const card of cards.filter(card => ['cibc-free','cibc-student','cibc-infini
 }
 const scotiaInfinite = cards.find(card => card.id === 'scotia')!;
 scotiaInfinite.note += ' From October 22, 2026, rent and tax payments do not qualify for recurring-bill bonus rates; use Everything else for those payments.';
+
+cards.push(...additionalCards(categories.map(category=>category.id)));
 
 // These issuer terms explicitly include EV charging in the fuel reward pool.
 // Do not infer EV eligibility for the Scotia Mastercard or subsidiary cards.

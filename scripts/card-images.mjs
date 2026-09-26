@@ -1,5 +1,18 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 const pages = {
+  eq: 'https://www.eqbank.ca/personal-banking/payments/card',
+  hometrust: 'https://www.hometrust.ca/credit-cards/preferred-visa-card/',
+  'pc-free': 'https://www.pcfinancial.ca/en/credit-cards/pc-mastercard/',
+  'pc-world': 'https://www.pcfinancial.ca/en/credit-cards/world/',
+  'pc-elite': 'https://www.pcfinancial.ca/en/credit-cards/world-elite/',
+  'pc-insiders': 'https://www.pcfinancial.ca/en/credit-cards/insiders/',
+  triangle: 'https://triangle.canadiantire.ca/en/credit-cards.html',
+  'triangle-elite': 'https://triangle.canadiantire.ca/en/credit-cards.html',
+  scene: 'https://www.scotiabank.com/ca/en/personal/credit-cards/visa/scene-card.html',
+  'meridian-free': 'https://www.meridiancu.ca/personal/credit-cards/meridian-visa-cash-back-card',
+  'meridian-platinum': 'https://www.meridiancu.ca/personal/credit-cards/meridian-visa-platinum-cash-back-card',
+  'rogers-red': 'https://www.rogersbank.com/en/rogers_red_mastercard_details/',
+  'rogers-elite': 'https://www.rogersbank.com/en/rogers_red_worldelite_mastercard_details/',
   wealthsimple: 'https://www.wealthsimple.com/en-ca/wealthsimple-visa-infinite-card',
   'bmo-student': 'https://www.bmo.com/en-ca/main/personal/credit-cards/student-bmo-cashback-mastercard/',
   'td-infinite': 'https://www.td.com/ca/en/personal-banking/products/credit-cards/cash-back/cash-back-visa-infinite-card',

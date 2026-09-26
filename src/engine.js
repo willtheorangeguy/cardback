@@ -9,9 +9,20 @@
  */
 function expanded(ids) {
   const result = [...ids];
-  if (ids.includes('gas')) result.push('costcogas');
+  if (ids.includes('gas')) result.push('costcogas','esso','trianglefuel','trianglepremium');
   if (ids.includes('transit')) result.push('publictransit');
+  if (ids.includes('groceries')) result.push('pcgroceries','scenegroceries','walmart');
+  if (ids.includes('drugstores')) result.push('shoppers');
+  if (ids.includes('entertainment')) result.push('cineplex');
+  if (ids.includes('home')) result.push('homehardware');
+  if (ids.includes('bills')) result.push('utilities');
   return [...new Set(result)];
+}
+
+/** @param {Card} card @param {Configuration} config */
+function rewardMultiplier(card, config) {
+  if (!config.statementCredit) return 1;
+  return card.rewardKind === 'pc' ? .7 : card.rewardKind === 'scene' ? 2/3 : 1;
 }
 
 /** @param {Card} card @param {Configuration} [config] */
@@ -24,10 +35,18 @@ export function total(budget) {
 }
 /** @param {Card} card @param {Configuration} [config] @returns {RewardGroup[]} */
 export function rewardGroups(card, config = {}) {
-  if (!card.selectable) return card.groups.map(group => ({ ...group, categories: expanded(group.categories) }));
+  if (card.issuer === 'Rogers Bank') return config.rogersCustomer
+    ? [{ categories:/** @type {import('./types').Category[]} */ (card.groups[0].categories),rate:.02,cap:card.groups[0].cap,period:'annual' }]
+    : [];
+  if (!card.selectable) return card.groups.map(group => {
+    const price = Number.isFinite(config.fuelPrice) && (config.fuelPrice ?? 0) >= 1 && (config.fuelPrice ?? 0) <= 10 ? /** @type {number} */ (config.fuelPrice) : 1.6;
+    const tax = Number.isFinite(config.retailTaxPercent) && (config.retailTaxPercent ?? -1) >= 0 && (config.retailTaxPercent ?? 21) <= 20 ? /** @type {number} */ (config.retailTaxPercent) : 5;
+    return { ...group, categories:expanded(group.categories).filter(id=>card.rewardKind !== 'triangle' || id !== 'walmart'),
+      rate:(group.rate + (group.perLitre ?? 0) / price) / (group.preTax ? 1 + tax/100 : 1) };
+  });
   /** @type {import('./types').Category[]} */
   const defaults = ['groceries', 'dining'];
-  const selected = [...new Set(config.selected ?? defaults)].filter(id => !['other', 'delivery', 'costcogas', 'costcoonline', 'costco', 'publictransit', 'media', 'travelportal', 'ev'].includes(id)).slice(0, config.savings ? 3 : 2);
+  const selected = [...new Set(config.selected ?? defaults)].filter(id => !['other', 'delivery', 'costcogas', 'costcoonline', 'costco', 'publictransit', 'media', 'travelportal', 'ev','pcgroceries','scenegroceries','shoppers','homehardware','cineplex','triangle','esso','trianglefuel','trianglepremium','utilities','walmart'].includes(id)).slice(0, config.savings ? 3 : 2);
   return [{ categories: expanded(selected), rate: .02 }];
 }
 /** Initial category rate can be below the eventual base (RBC's ascending tier).
@@ -35,7 +54,7 @@ export function rewardGroups(card, config = {}) {
  */
 export function initialRate(card, category, config = {}) {
   const matches = rewardGroups(card, config).filter(group => group.categories.includes(category));
-  return matches.length ? Math.max(...matches.map(group => group.rate)) : card.base;
+  return (matches.length ? Math.max(...matches.map(group => group.rate)) : card.base) * rewardMultiplier(card, config);
 }
 /** @param {RewardGroup} group */
 function annualCap(group) {
@@ -58,7 +77,7 @@ export function cashback(card, monthly, config = {}) {
     }
     result += amount * card.base + amount * (rate - card.base) * fraction;
   }
-  return result;
+  return result * rewardMultiplier(card, config);
 }
 /** @param {Budget} budget @returns {Budget} */
 export function proportions(budget) {

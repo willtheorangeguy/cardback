@@ -37,7 +37,7 @@ describe('cashback and break-even', () => {
   });
   it('respects Tangerine selections and savings condition', () => {
     const config = {selected:['groceries','dining','gas'] as const};
-    expect(rewardGroups(find('tangerine'),{selected:[...config.selected]})[0].categories).toHaveLength(2);
+    expect(rewardGroups(find('tangerine'),{selected:[...config.selected]})[0].categories).toEqual(['groceries','dining','pcgroceries','scenegroceries','walmart']);
     expect(cashback(find('tangerine'),{gas:100},{selected:[...config.selected]})).toBeCloseTo(6);
     expect(cashback(find('tangerine'),{gas:100},{selected:[...config.selected],savings:true})).toBeCloseTo(24);
   });
@@ -54,8 +54,8 @@ describe('cashback and break-even', () => {
     expect(breakEven(fixture,{groceries:500,other:500}).first).toBeCloseTo(1000);
     expect(cashback(fixture,{other:NaN,gas:-20})).toBe(0);
   });
-  it('has nineteen sourced cards and distinct identifiers', () => {
-    expect(cards).toHaveLength(19);
+  it('has thirty-two sourced cards and distinct identifiers', () => {
+    expect(cards).toHaveLength(32);
     expect(new Set(cards.map(c=>c.id)).size).toBe(cards.length);
     expect(cards.every(c=>c.sources.length > 0 && c.sources.every(s=>s.url.startsWith('https://')))).toBe(true);
   });
@@ -91,7 +91,7 @@ describe('Big Five catalog scan', () => {
   it('covers every scanned personal cashback product and all artwork mappings', () => {
     const expected: Record<string, number> = {BMO:3,TD:2,RBC:2,Scotiabank:4,CIBC:5};
     for (const [issuer, count] of Object.entries(expected)) {
-      expect(cards.filter(card=>card.issuer === issuer)).toHaveLength(count);
+      expect(cards.filter(card=>card.issuer === issuer && !card.rewardKind)).toHaveLength(count);
     }
     expect(Object.keys(artwork).sort()).toEqual(cards.map(card=>card.id).sort());
     expect(Object.keys(imageSources).sort()).toEqual(Object.keys(artwork).sort());

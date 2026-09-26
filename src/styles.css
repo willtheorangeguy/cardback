@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap');
 @import "tailwindcss";
+.configuration .field-label{display:flex;flex-direction:column;gap:7px;margin-top:14px}
+.configuration .field-label input{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:white;color:inherit}
+.configuration .field-label small{font-size:10px;font-weight:400;line-height:1.5;color:var(--muted)}
 .card-artwork{display:flex;align-items:center;justify-content:center;aspect-ratio:1.59;margin:24px auto 23px;max-width:325px;width:100%}
 .card-artwork img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 8px #123c4d14)}
 .card-artwork-fallback{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;width:100%;height:100%;border:1px solid #e5ebe4;border-radius:12px;background:#f7f9f6;text-align:center;padding:18px;font-size:13px;font-weight:600}

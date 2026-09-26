@@ -23,7 +23,7 @@ flowchart LR
 
 ### Data and engine
 
-`src/catalog.ts` contains twenty-one categories and nineteen card entries. `src/types.ts` defines cards, reward groups, budgets, and settings. `src/engine.js` uses checked JSDoc and exports calculation functions tested without React rendering. See [Card catalog](./card-catalog.md) for scan coverage and issuer sources.
+`src/catalog.ts` defines thirty-two budget categories and assembles thirty-two card entries, including the additional issuers in `src/retail-catalog.ts`. `src/types.ts` defines cards, reward groups, budgets, and settings. `src/engine.js` uses checked JSDoc and exports calculation functions tested without React rendering. See [Card catalog](./card-catalog.md) for coverage and issuer sources.
 
 ### Assets and docs
 

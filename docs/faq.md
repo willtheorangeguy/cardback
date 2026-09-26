@@ -6,7 +6,11 @@
 
 ??? question "Are rates updated live?"
 
-    No. Fees, rates, caps, and verification dates are bundled in `src/catalog.ts`. Check issuer terms before relying on a calculation.
+    No. Fees, rates, caps, and verification dates are bundled in `src/catalog.ts` and `src/retail-catalog.ts`. Fuel price and partner-store tax are assumptions you control, not live feeds. Check issuer terms before relying on a calculation.
+
+??? question "Are points and prepaid cards counted as cashback credit cards?"
+
+    No. EQ is labeled prepaid. PC Financial, Triangle and Scene+ show estimated reward value, not cash. PC and Scene+ offer a lower statement-credit valuation setting. Redemption minimums and independent loyalty offers are not included. See [Card catalog](./card-catalog.md).
 
 ??? question "Why can a card win and then fall behind?"
 
