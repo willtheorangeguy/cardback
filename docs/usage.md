@@ -14,6 +14,8 @@ The Monthly/Annual toggle changes category threshold units. Budget fields remain
 
 Count each purchase once: do not enter restaurant delivery under both dining and delivery. Fields accept $0 through $1,000,000 per month. Invalid values show an error and suppress personal results.
 
+Keep Costco gas separate from other gas and EV charging, and public transit separate from taxis/rideshares. Use Costco warehouse rather than groceries for warehouse purchases. Put recurring subscriptions in bills only once. See [Card catalog](./card-catalog.md) for the merchant-code assumptions.
+
 **Try an example budget** loads bundled values. **Reset** clears them. Reloading also clears inputs and settings.
 
 ## Read results

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { ArrowDown, Check, ChevronDown, CreditCard, ExternalLink, Info, Leaf, RotateCcw, ShieldCheck, Sparkles, Wallet } from 'lucide-react';
 import { cards, categories, selectableCategories } from './catalog';
-import { annualFee, breakEven, cashback, rewardGroups, total } from './engine';
+import { annualFee, breakEven, cashback, initialRate, rewardGroups, total } from './engine';
+import artwork from './card-artwork.json';
 import type { Budget, Card, Category, Configuration } from './types';
 
 const money = (value: number, cents = false) => new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: cents ? 2 : 0 }).format(value);
@@ -11,13 +12,13 @@ const initialConfig: Configuration = { selected: ['groceries', 'dining'], saving
 const example: Budget = { groceries: 650, dining: 200, delivery: 50, gas: 150, transit: 100, bills: 250, drugstores: 50, entertainment: 75, home: 50, other: 300 };
 function CardArtwork({ card }: { card: Card }) {
   const [failed, setFailed] = useState(false);
-  const extension = card.id === 'rbc' ? 'webp' : card.id === 'tangerine' ? 'jpg' : 'png';
+  const filename = (artwork as Record<string, string>)[card.id];
   return <div className="card-artwork">
-    {failed ? <p className="card-artwork-fallback">{card.issuer} {card.name}<span>Card image unavailable</span></p> : <img src={`${import.meta.env.BASE_URL}cards/${card.id}.${extension}`} alt={`${card.issuer} ${card.name}`} width="320" height="202" decoding="async" onError={() => setFailed(true)} />}
+    {failed || !filename ? <p className="card-artwork-fallback">{card.issuer} {card.name}<span>Card image unavailable</span></p> : <img src={`${import.meta.env.BASE_URL}cards/${filename}`} alt={`${card.issuer} ${card.name}`} width="320" height="202" decoding="async" onError={() => setFailed(true)} />}
   </div>;
 }
 function Icon({ category }: { category: Category }) {
-  const symbols: Record<Category, string> = {groceries:'◒',dining:'♧',delivery:'↗',gas:'◈',transit:'⇄',bills:'▤',drugstores:'✚',entertainment:'♫',home:'⌂',furniture:'▱',hotels:'▦',games:'⊞',fitness:'◇',other:'•••'};
+  const symbols: Record<Category, string> = {groceries:'◒',dining:'♧',delivery:'↗',gas:'◈',transit:'⇄',bills:'▤',drugstores:'✚',entertainment:'♫',home:'⌂',furniture:'▱',hotels:'▦',games:'⊞',fitness:'◇',other:'•••',costcogas:'◈',costcoonline:'▱',costco:'▱',publictransit:'⇄',media:'♫',travelportal:'▦',ev:'◈'};
   return <span className={`category-icon icon-${category}`} aria-hidden="true">{symbols[category]}</span>;
 }
 function ConfigurationPanel({ card, config, onChange, id }: { card: Card; config: Configuration; onChange: (config: Configuration) => void; id: string }) {
@@ -66,7 +67,7 @@ export default function App() {
           <CardArtwork key={card.id} card={card} />
           <div className="fee-line"><span>Annual card fee</span><strong>{money(fee)}<small> / year</small></strong></div>
           <ConfigurationPanel card={card} config={config} onChange={setConfig} id="Selected card" />
-          <div className="card-rates"><span className="field-label">Your cashback rates</span>{displayCategories.map(c => { const rate = Math.max(card.base, ...groupRates.filter(g => g.categories.includes(c.id)).map(g => g.rate)); return <div className="rate-line" key={c.id}><span><Icon category={c.id}/>{c.short}</span><strong>{percent(rate)}</strong></div>; })}</div>
+          <div className="card-rates"><span className="field-label">Your initial cashback rates</span>{displayCategories.map(c => { const rate = initialRate(card, c.id, config); return <div className="rate-line" key={c.id}><span><Icon category={c.id}/>{c.short}</span><strong>{percent(rate)}</strong></div>; })}</div>
           <div className="note"><Info size={16}/><p>{card.note}</p></div><p className="verified"><ShieldCheck size={14}/> Verified Sep 26, 2026 · ongoing rates</p><div className="source-links">{card.sources.map(s => <a key={s.url} href={s.url} target="_blank" rel="noreferrer">{s.label}<ExternalLink size={12}/></a>)}</div>
         </section>
         <div className="right-column"><section className="threshold-panel panel"><div className="section-heading"><div className="section-label"><span className="step">02</span> FIND YOUR BREAK-EVEN</div><span className="tag"><Check size={13}/> Caps included</span></div><h2>A fee that earns its keep.</h2><p className="muted">How much would you need to spend in just one category?</p><div className="segmented" aria-label="Calculation type"><button className={mode === 'fee' ? 'active' : ''} aria-pressed={mode === 'fee'} onClick={() => setMode('fee')}>Cover the fee</button><button className={mode === 'compare' ? 'active' : ''} aria-pressed={mode === 'compare'} onClick={() => setMode('compare')}>Beat a no-fee card</button></div>

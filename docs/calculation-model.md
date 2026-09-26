@@ -16,7 +16,7 @@ Displayed monthly threshold = 231.67 CAD
 
 ## Caps
 
-`cashback` annualizes monthly spending and monthly caps. Categories earn the highest matching bonus rate while eligible, then the base rate. Shared caps allocate bonus allowance proportionally across eligible categories. CIBC groups also constrain bonus eligibility using total annual spending.
+`cashback` annualizes monthly spending and monthly caps. Categories earn the highest matching group rate before its threshold, then the base rate. A group rate can be lower than the eventual base, as on RBC's ascending non-grocery tier. Shared caps allocate allowance proportionally across eligible categories. CIBC groups also constrain everyday bonus eligibility using total annual spending; eligible portal travel is exempt from those bonus caps.
 
 This represents a steady budget, not statement purchase order.
 

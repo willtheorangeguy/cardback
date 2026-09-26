@@ -12,7 +12,7 @@ for (const path of assets) {
   assert(path.startsWith(base), `Asset URL does not use the Pages base: ${path}`);
   assert((await stat(new URL(path.slice(base.length), dist))).size > 0, `Missing or empty asset: ${path}`);
 }
-const images = ['bmo-world.png', 'bmo-free.png', 'tangerine.jpg', 'simplii.png', 'cibc-free.png', 'cibc-infinite.png', 'rbc.webp', 'scotia.png'];
+const images = Object.values(JSON.parse(await readFile(new URL('../src/card-artwork.json', import.meta.url), 'utf8')));
 for (const image of images) {
   assert((await stat(new URL(`cards/${image}`, dist))).size > 0, `Missing card image: ${image}`);
 }

@@ -25,13 +25,13 @@ The development server prints its local URL. `npm run preview` serves a complete
 
 Pages is already configured to use GitHub Actions. Push these files to `main` to start the first deployment. No personal access token or repository secret is needed; the deployment job uses GitHub's built-in token with Pages and OIDC permissions. Action versions are pinned to verified commit SHAs.
 
-The production site lives at `https://williamvdg.me/cardback/`. Vite uses `/cardback/` as the production base, including for local card images. Development stays at `/`; production preview serves `/cardback/`. Run `npm run build` and `npm run check:build` to verify the Pages asset paths and all eight card images locally. If the production path changes, update the base in `vite.config.ts` and `scripts/check-build.mjs` together.
+The production site lives at `https://williamvdg.me/cardback/`. Vite uses `/cardback/` as the production base, including for local card images. Development stays at `/`; production preview serves `/cardback/`. Run `npm run build` and `npm run check:build` to verify the Pages asset paths and all catalog card images locally. If the production path changes, update the base in `vite.config.ts` and `scripts/check-build.mjs` together.
 
 Reports and production artifacts are retained for seven days. The Pages workflow serializes deployments. Repository branch protections, if desired, can require the build and Node test checks before merging.
 
 ## Calculation model
 
-`src/catalog.ts` contains eight issuer-sourced cards, verification dates, rates and spending limits. `src/engine.js` is a pure calculation module with TypeScript-checked JSDoc. Monthly spending repeats over twelve modeled billing cycles. Shared annual caps are allocated proportionally; CIBC's total-purchase caps constrain the same bonus allowance. Break-even walks exact piecewise-linear segments and reports later reversals when comparing against a free card.
+`src/catalog.ts` contains eighteen issuer-sourced card entries, verification dates, rates and spending limits. The [Big Five scan](docs/card-catalog.md) records coverage and exclusions. `src/engine.js` is a pure calculation module with TypeScript-checked JSDoc. Monthly spending repeats over twelve modeled billing cycles. Shared annual caps are allocated proportionally; CIBC's total-purchase caps constrain the same bonus allowance, while eligible portal rewards remain uncapped. Break-even walks exact piecewise-linear segments, including ascending reward tiers, and reports later reversals when comparing against a free card.
 
 Card data reflects issuer pages checked September 26, 2026. BMO World Elite's current product page and offer terms show $139, despite older issuer documents showing $120. CIBC Infinite's benefits guide specifies $50,000 total annual spending or $20,000 combined accelerated spending; the no-fee version specifies $30,000 or $20,000. Sources are available in the interface. Review issuer product pages and reward agreements together when updating data, then update the verification date and calculation fixtures.
 

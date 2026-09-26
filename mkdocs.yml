@@ -12,6 +12,7 @@ nav:
   - Getting started: getting-started.md
   - Using the calculator: usage.md
   - Calculation model: calculation-model.md
+  - Card catalog: card-catalog.md
   - Installation: installation.md
   - Configuration: configuration.md
   - Architecture: architecture.md

@@ -10,7 +10,7 @@ npm run build
 npm run check:build
 ```
 
-Engine fixtures cover fees, caps, category settings, empty budgets, fee recovery, comparisons, and reversals. The production checker verifies asset prefixes and eight required artwork files.
+Engine fixtures cover fees, caps, ascending and descending reward tiers, category settings, empty budgets, fee recovery, comparisons, and reversals. Catalog tests check issuer coverage and artwork mappings. The production checker verifies asset prefixes and every artwork file in the shared filename manifest.
 
 After [installing docs dependencies](./installation.md), run `npm run docs:build`. Strict MkDocs validation catches warnings such as broken links and missing navigation targets. Docs Lint also checks Markdown style and external links on relevant PRs.
 

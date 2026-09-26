@@ -16,7 +16,7 @@ Review issuer product pages and reward agreements together. Update source links,
 node scripts/card-images.mjs --download
 ```
 
-The downloader checks signatures before saving. Artwork and trademarks belong to the issuers. New cards also need compatible filenames in `CardArtwork` and the production image checker.
+The downloader checks signatures before saving. Artwork and trademarks belong to the issuers. New cards also need filename entries in `src/card-artwork.json`; the interface, downloader, catalog tests, and production image checker share that manifest.
 
 ## Maintain docs
 

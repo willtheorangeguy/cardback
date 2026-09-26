@@ -3,6 +3,17 @@
 /** @typedef {import('./types').Configuration} Configuration */
 /** @typedef {import('./types').RewardGroup} RewardGroup */
 
+/** Split budget fields that share the same merchant category on most cards.
+ * @param {import('./types').Category[]} ids
+ * @returns {import('./types').Category[]}
+ */
+function expanded(ids) {
+  const result = [...ids];
+  if (ids.includes('gas')) result.push('costcogas');
+  if (ids.includes('transit')) result.push('publictransit');
+  return [...new Set(result)];
+}
+
 /** @param {Card} card @param {Configuration} [config] */
 export function annualFee(card, config = {}) {
   return config.feeWaived ? 0 : card.fee * (card.feePeriod === 'monthly' ? 12 : 1);
@@ -13,11 +24,18 @@ export function total(budget) {
 }
 /** @param {Card} card @param {Configuration} [config] @returns {RewardGroup[]} */
 export function rewardGroups(card, config = {}) {
-  if (!card.selectable) return card.groups;
+  if (!card.selectable) return card.groups.map(group => ({ ...group, categories: expanded(group.categories) }));
   /** @type {import('./types').Category[]} */
   const defaults = ['groceries', 'dining'];
-  const selected = [...new Set(config.selected ?? defaults)].filter(id => id !== 'other' && id !== 'delivery').slice(0, config.savings ? 3 : 2);
-  return [{ categories: selected, rate: .02 }];
+  const selected = [...new Set(config.selected ?? defaults)].filter(id => !['other', 'delivery', 'costcogas', 'costcoonline', 'costco', 'publictransit', 'media', 'travelportal', 'ev'].includes(id)).slice(0, config.savings ? 3 : 2);
+  return [{ categories: expanded(selected), rate: .02 }];
+}
+/** Initial category rate can be below the eventual base (RBC's ascending tier).
+ * @param {Card} card @param {import('./types').Category} category @param {Configuration} [config]
+ */
+export function initialRate(card, category, config = {}) {
+  const matches = rewardGroups(card, config).filter(group => group.categories.includes(category));
+  return matches.length ? Math.max(...matches.map(group => group.rate)) : card.base;
 }
 /** @param {RewardGroup} group */
 function annualCap(group) {
@@ -31,7 +49,7 @@ export function cashback(card, monthly, config = {}) {
   for (const [key, raw] of Object.entries(monthly)) {
     const amount = Number.isFinite(raw) && raw > 0 ? raw * 12 : 0;
     const matches = groups.filter(group => group.categories.includes(/** @type {import('./types').Category} */ (key)));
-    const rate = Math.max(card.base, ...matches.map(group => group.rate));
+    const rate = matches.length ? Math.max(...matches.map(group => group.rate)) : card.base;
     let fraction = 1;
     for (const group of matches) {
       const eligible = group.categories.reduce((sum, id) => sum + Math.max(0, monthly[id] ?? 0) * 12, 0);
