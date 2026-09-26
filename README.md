@@ -15,6 +15,18 @@ npm run build
 
 The development server prints its local URL. `npm run preview` serves a completed production build. Deploy the `dist` directory to a static host; no backend or secrets are required.
 
+## GitHub Actions and Pages
+
+- **CI** (`.github/workflows/ci.yml`) runs on branch pushes, pull requests targeting `main`, and manual dispatch. It runs the reusable tests workflow and TypeScript/production build checks. On `main`, Pages calls this same CI workflow before deployment.
+- **Tests** (`.github/workflows/tests.yml`) runs Vitest on Node.js 22 and 24. Each job uploads a JUnit report, including on test failures. It can also be run manually from Actions.
+- **Deploy to GitHub Pages** (`.github/workflows/pages.yml`) runs on pushes to `main` or manual dispatch on `main`. After all CI jobs pass, it deploys the exact validated build artifact to the `github-pages` environment. Failed tests or builds block deployment.
+
+Pages is already configured to use GitHub Actions. Push these files to `main` to start the first deployment. No personal access token or repository secret is needed; the deployment job uses GitHub's built-in token with Pages and OIDC permissions. Action versions are pinned to verified commit SHAs.
+
+The production site lives at `https://williamvdg.me/cardback/`. Vite uses `/cardback/` as the production base, including for local card images. Development stays at `/`; production preview serves `/cardback/`. Run `npm run build` and `npm run check:build` to verify the Pages asset paths and all eight card images locally. If the production path changes, update the base in `vite.config.ts` and `scripts/check-build.mjs` together.
+
+Reports and production artifacts are retained for seven days. The Pages workflow serializes deployments. Repository branch protections, if desired, can require the build and Node test checks before merging.
+
 ## Calculation model
 
 `src/catalog.ts` contains eight issuer-sourced cards, verification dates, rates and spending limits. `src/engine.js` is a pure calculation module with TypeScript-checked JSDoc. Monthly spending repeats over twelve modeled billing cycles. Shared annual caps are allocated proportionally; CIBC's total-purchase caps constrain the same bonus allowance. Break-even walks exact piecewise-linear segments and reports later reversals when comparing against a free card.
