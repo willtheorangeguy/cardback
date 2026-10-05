@@ -18,14 +18,18 @@ nav:
   - Architecture: architecture.md
   - Development:
       - Development: development.md
+      - Engine reference: engine-reference.md
+      - Commands: commands.md
       - Testing: testing.md
       - CI/CD: ci-cd.md
+      - Deployment: deployment.md
       - Troubleshooting: troubleshooting.md
       - FAQ: faq.md
   - About:
       - Contributing: https://github.com/willtheorangeguy/.github/blob/main/CONTRIBUTING.md
       - Code of conduct: https://github.com/willtheorangeguy/.github/blob/main/CODE_OF_CONDUCT.md
       - Security: https://github.com/willtheorangeguy/.github/blob/main/SECURITY.md
+      - Roadmap: roadmap.md
       - Calculator: https://williamvdg.me/cardback/
 exclude_docs: |
   docs.instructions.md

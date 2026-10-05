@@ -1,9 +1,21 @@
-# Cardback — Known issues
+# Known issues — Cardback
 
-## No declared project license
+Concrete defects and gaps found while writing this repository's documentation.
+**Nothing here was changed** — each one needs a code, configuration, or
+licensing decision rather than a documentation one.
 
-- Severity: documentation/legal metadata.
-- Where: repository root.
-- Observable: no LICENSE or LICENSE.md file exists.
-- Consequence: the documentation cannot declare reuse terms or include a license page.
-- Suggestion: the maintainer should select a license before adding a license page. Documentation work does not authorize choosing one.
+Ordered by severity. See [`docs/roadmap.md`](../roadmap.md) for the narrative version,
+which also covers deliberate non-goals.
+
+**1 open:** 1 medium.
+
+## No project license is declared
+
+**Severity:** Medium
+**Where:** Repository root and `package.json`
+
+**What:** The repository has no LICENSE or LICENSE.md file and package.json declares no license. Issuer artwork is bundled separately with source URLs and trademark attribution.
+
+**Why it matters:** The docs cannot name project reuse terms or include a root license by reference.
+
+**Suggested fix:** Have the maintainer choose project licensing terms and add the corresponding root license. Keep issuer artwork rights distinct from any project license.

@@ -1,36 +1,49 @@
 # Getting started
 
-Run Cardback locally and check a category threshold before entering your budget.
+Run Cardback locally and check a category threshold before entering your budget. To use it without a development checkout, open the [hosted calculator](https://williamvdg.me/cardback/).
 
 ## Prerequisites
 
-Install Git, npm, and Node.js 22.12+ in the Node.js 22 line, or Node.js 24. CI tests Node.js 22 and 24.
+Install Git, npm, and Node.js 22.12+ in the Node.js 22 line, or Node.js 24. CI tests Node.js 22 and 24. Check the installed tools:
 
 ```sh
+git --version
 node --version
 npm --version
 ```
 
-## Run the application
+`node --version` must report the supported Node.js version you installed. Docs development additionally uses Python 3.12 in CI; it is not needed to run the calculator.
+
+## Install
 
 ```sh
 git clone https://github.com/willtheorangeguy/cardback.git
 cd cardback
 npm ci
-npm run dev
 ```
 
-Open the local address printed by Vite. The page starts with BMO CashBack World Elite selected and an empty budget.
+Git creates the `cardback/` checkout. npm installs the versions in `package-lock.json` into `node_modules/`. Access to this private repository is required to clone it. See [Installation](./installation.md) for documentation setup and production preview.
 
-## Check a result
+## First run
 
-1. Keep **Cover the fee** and **Monthly** selected.
-2. Find the groceries threshold: **$231.67 per month** with the bundled catalog.
-3. Select **Try an example budget** to populate spending and see annual cashback after fees.
-4. Select **Beat a no-fee card** to compare against a baseline.
+1. Start the development server:
 
-The groceries example uses the catalog's $139 fee and 5% rate below its monthly cap, not a live issuer quote.
+    ```sh
+    npm run dev
+    ```
+
+    Vite prints a local address. Open that address; the calculator starts with BMO CashBack World Elite selected and an empty budget.
+
+2. Keep **Cover the fee** and **Monthly** selected. Find the groceries threshold: **$231.67 per month** with the bundled catalog.
+3. Select **Try an example budget** to populate spending and see annual rewards after fees.
+4. Select **Beat a no-fee card** to compare against a baseline. Select a different baseline and configure it independently.
+
+## What happened
+
+Vite serves the React application. The bundled $139 annual fee divided by the 5% grocery rate gives $2,780 of annual spending, or $231.67 per month after rounding upward. This threshold is below the modeled grocery cap. No issuer rate request occurs; the calculation uses the September 26, 2026 catalog snapshot.
+
+The example budget sets monthly spending across ten fields. Reloading the page clears it because inputs are held in React state.
 
 ## Next steps
 
-Read [Using the calculator](./usage.md) for inputs, [Calculation model](./calculation-model.md) for assumptions, or [Installation](./installation.md) to preview production output.
+Read [Using the calculator](./usage.md) for input classification and [Calculation model](./calculation-model.md) for assumptions. Read [Development](./development.md) to modify source or [Deployment](./deployment.md) to publish static output.

@@ -1,51 +1,82 @@
-# Cardback
+<!-- Logo -->
+<h1 align="center">Cardback</h1>
 
-A Canadian cashback calculator built with React, TypeScript, Vite and Tailwind CSS. All budget calculations happen locally in the browser; inputs are not persisted.
+<!-- Tagline -->
+<h4 align="center">A Canadian cashback calculator for comparing card fees and rewards against your spending.</h4>
 
-Documentation: [project guide](docs/index.md) · [MkDocs site](https://williamvdg.me/cardback/docs/).
+<!-- Badges -->
+<div align="center">
+  <img alt="CI State" src="https://github.com/willtheorangeguy/cardback/actions/workflows/ci.yml/badge.svg">
+  <img alt="Test State" src="https://github.com/willtheorangeguy/cardback/actions/workflows/tests.yml/badge.svg">
+  <img alt="Pages State" src="https://github.com/willtheorangeguy/cardback/actions/workflows/pages.yml/badge.svg">
+  <img alt="Docs Lint State" src="https://github.com/willtheorangeguy/cardback/actions/workflows/docs-lint.yml/badge.svg">
+  <img alt="GitHub Issues" src="https://img.shields.io/github/issues/willtheorangeguy/cardback">
+  <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/willtheorangeguy/cardback">
+  <a href="https://williamvdg.me/cardback/docs/"><img alt="Documentation" src="https://img.shields.io/badge/docs-online-c33207"></a>
+</div>
 
-## Development
+<!-- Nav -->
+<p align="center">
+  <a href="#key-features">Key Features</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#documentation">Documentation</a> •
+  <a href="#support">Support</a> •
+  <a href="#contributing">Contributing</a> •
+  <a href="#license">License</a> •
+  <a href="#credits">Credits</a>
+</p>
 
-Requires Node.js 20.19+ or 22.12+ and npm.
+Cardback estimates how much spending recovers a card's ongoing fee and whether it beats a no-fee alternative. All budget calculations happen locally in the browser; inputs are not persisted. The bundled card data was checked September 26, 2026 and does not update automatically.
 
-```sh
-npm install
-npm run dev
-npm test
-npm run build
+## Key Features
+
+- Compare thirty-two card entries from fourteen Canadian issuers, including a labeled prepaid option.
+- Calculate fee recovery for one category or your monthly spending mix.
+- Compare annual rewards after fees against a no-fee card.
+- Model monthly and annual caps, shared allowances, and later comparison reversals.
+- Configure Tangerine categories, reward redemption values, and eligible customer settings independently for both cards.
+- Review issuer sources and locally bundled card artwork alongside results.
+
+## Installation
+
+Use Node.js 22.12+ in the Node.js 22 line, or Node.js 24, and npm.
+
+```bash
+git clone https://github.com/willtheorangeguy/cardback.git
+cd cardback
+npm ci
 ```
 
-The development server prints its local URL. `npm run preview` serves a completed production build. Deploy the `dist` directory to a static host; no backend or secrets are required.
+## Usage
 
-## GitHub Actions and Pages
+```bash
+npm run dev
+```
 
-- **CI** (`.github/workflows/ci.yml`) runs on branch pushes, pull requests targeting `main`, and manual dispatch. It runs the reusable tests workflow and TypeScript/production build checks. On `main`, Pages calls this same CI workflow before deployment.
-- **Tests** (`.github/workflows/tests.yml`) runs Vitest on Node.js 22 and 24. Each job uploads a JUnit report, including on test failures. It can also be run manually from Actions.
-- **Deploy to GitHub Pages** (`.github/workflows/pages.yml`) runs on pushes to `main` or manual dispatch on `main`. After all CI jobs pass, it deploys the exact validated build artifact to the `github-pages` environment. Failed tests or builds block deployment.
+Open Vite's printed local address. Keep **Cover the fee** and **Monthly** selected: BMO CashBack World Elite groceries show **$231.67 per month** with the bundled catalog. Select **Try an example budget** to see estimated annual rewards after fees.
 
-Pages is already configured to use GitHub Actions. Push these files to `main` to start the first deployment. No personal access token or repository secret is needed; the deployment job uses GitHub's built-in token with Pages and OIDC permissions. Action versions are pinned to verified commit SHAs.
+The [hosted calculator](https://williamvdg.me/cardback/) needs no installation. Results assume repeating monthly spending and exclude interest, promotions, and most fee rebates. See the [calculation model](docs/calculation-model.md) for assumptions.
 
-The production site lives at `https://williamvdg.me/cardback/`. Vite uses `/cardback/` as the production base, including for local card images. Development stays at `/`; production preview serves `/cardback/`. Run `npm run build` and `npm run check:build` to verify the Pages asset paths and all catalog card images locally. If the production path changes, update the base in `vite.config.ts` and `scripts/check-build.mjs` together.
+## Documentation
 
-Reports and production artifacts are retained for seven days. The Pages workflow serializes deployments. Repository branch protections, if desired, can require the build and Node test checks before merging.
+Full documentation lives in [`docs/`](docs/index.md) and the [MkDocs site](https://williamvdg.me/cardback/docs/):
+[Installation](docs/installation.md) · [Usage](docs/usage.md) · [Configuration](docs/configuration.md) · [Troubleshooting](docs/troubleshooting.md)
 
-## Calculation model
+Developer guides cover [architecture](docs/architecture.md), [development](docs/development.md), [testing](docs/testing.md), and [deployment](docs/deployment.md). The [card catalog](docs/card-catalog.md) records coverage and redemption assumptions; the [roadmap](docs/roadmap.md) records current limitations.
 
-`src/catalog.ts` and `src/retail-catalog.ts` assemble thirty-two issuer-sourced card entries with verification dates, rates and spending limits. The [card catalog](docs/card-catalog.md) records coverage, exclusions, prepaid labeling and points-redemption assumptions. `src/engine.js` is a pure calculation module with TypeScript-checked JSDoc. Monthly spending repeats over twelve modeled billing cycles. Shared annual caps are allocated proportionally; CIBC's total-purchase caps constrain the same bonus allowance, while eligible portal rewards remain uncapped. Fuel rewards use a configurable per-litre price assumption. Break-even walks exact piecewise-linear segments, including ascending reward tiers, and reports later reversals when comparing against a no-fee card.
+## Support
 
-Card data reflects issuer pages checked September 26, 2026. BMO World Elite's current product page and offer terms show $139, despite older issuer documents showing $120. CIBC Infinite's benefits guide specifies $50,000 total annual spending or $20,000 combined accelerated spending; the no-fee version specifies $30,000 or $20,000. Sources are available in the interface. Review issuer product pages and reward agreements together when updating data, then update the verification date and calculation fixtures.
+File an [issue](https://github.com/willtheorangeguy/cardback/issues/new/choose).
 
-Foreign-currency category selection, promotional offers, fee rebates and supplementary cards are excluded. Delivery requires the classification stated in each card's notes. Merchant coding and purchase order may cause actual rewards to differ from the estimate.
+## Contributing
 
-## Manual acceptance checks
+Contributions welcome. See the org-wide [Contributing Guide](https://github.com/willtheorangeguy/.github/blob/main/CONTRIBUTING.md) and [Code of Conduct](https://github.com/willtheorangeguy/.github/blob/main/CODE_OF_CONDUCT.md).
 
-- Switch cards and monthly/annual thresholds; ensure caps and sources change with the card.
-- Select Tangerine in either selector; check the two-category limit and savings-account third category.
-- Start with an empty budget, load the example, reset, and enter negative or oversized values.
-- Compare against each no-fee card; verify the comparison selector and its configuration update results.
-- At 139 / 0.05 / 12 dollars of monthly BMO World Elite groceries, annual rewards cover the fee.
-- Test narrow and wide viewports, keyboard navigation, visible focus, input labels, and result announcements.
+## License
 
-Card images are bundled locally in `public/cards` using artwork from the issuers' product pages. `scripts/card-image-sources.json` records the original asset URLs. Refresh downloads with `node scripts/card-images.mjs --download`; this verifies image signatures before saving. Images retain their aspect ratios, have descriptive alternative text, and show a text fallback if unavailable. Artwork and trademarks belong to their respective issuers.
+No project license is declared. The repository has no `LICENSE` or `LICENSE.md`; reuse terms need a maintainer decision. Card artwork and trademarks belong to their respective issuers.
 
-Google Fonts is optional; system fonts provide a fallback. No analytics or financial-data network requests are made.
+## Credits
+
+Built with React, TypeScript, Vite, Tailwind CSS, and Lucide icons. Documentation uses Material for MkDocs and the shared [documentation design system](https://github.com/willtheorangeguy/mkdocs). Issuer artwork sources are recorded in [`scripts/card-image-sources.json`](scripts/card-image-sources.json).
